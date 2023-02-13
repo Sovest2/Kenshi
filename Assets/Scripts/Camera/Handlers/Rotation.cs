@@ -25,7 +25,7 @@ namespace Kenshi.Camera
 
         private void HandleMouseRotation()
         {
-            if (!Input.GetButton("Fire2")) return;
+            if (!Input.GetButton("Fire3")) return;
 
             float xInput = Input.GetAxis("Mouse X") * _xSensitivity * (_xInverse ? -1 : 1);
             float yInput = Input.GetAxis("Mouse Y") * _ySensitivity * (_yInverse ? -1 : 1);
