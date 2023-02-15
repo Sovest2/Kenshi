@@ -6,6 +6,7 @@ namespace Kenshi.Camera
     public class Movement : MonoBehaviour, ICameraHandler
     {
         [SerializeField] private LayerMask _groundMask;
+        [SerializeField] private float _groundCheckOffset;
         [SerializeField] private float _speed;
         
         [Space]
@@ -69,7 +70,7 @@ namespace Kenshi.Camera
             // Stick to ground
             RaycastHit hit;
             Vector3 targetPosition = _controller.Target.position;
-            targetPosition.y += 5;
+            targetPosition.y += _groundCheckOffset;
 
             if (Physics.Raycast(targetPosition, Vector3.down, out hit,Mathf.Infinity, _groundMask))
             {

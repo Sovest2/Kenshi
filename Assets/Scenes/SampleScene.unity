@@ -908,10 +908,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5606b3574b1d3a74c9a00211e30dd41e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _zoomSpeed: 5
+  _zoomSensitivity: 0.5
   _minimalZoom: 3
   _maximumZoom: 100
-  _zoomInverse: 0
+  _zoomInverse: 1
 --- !u!114 &1436500979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -943,6 +943,7 @@ MonoBehaviour:
   _groundMask:
     serializedVersion: 2
     m_Bits: 8
+  _groundCheckOffset: 5
   _speed: 10
   _mouseMovement: 0
   _screenEdgeOffset: 0.05

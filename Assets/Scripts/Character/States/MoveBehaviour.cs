@@ -22,25 +22,36 @@ namespace Kenshi.Character.States
             _animator = animator;
             _agent = animator.GetComponent<NavMeshAgent>();
             _agent.enabled = true;
+            _agent.isStopped = false;
             _agent.SetDestination(_destination);
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if(!_agent.enabled)
+                return;
+
             animator.SetFloat(Property, _agent.velocity.magnitude / _agent.speed);
+
+            if (!_agent.hasPath)
+            {
+                Stop();
+                return;
+            }
             
             if (_agent.remainingDistance <= _agent.stoppingDistance)
+            {
                 Stop();
-            
-            if(!_agent.hasPath)
-                Stop();
+                return;
+            }
         }
 
         private void Stop()
         {
             _agent.SetDestination(_agent.transform.position);
-            _agent.enabled = false;
+            _agent.isStopped = true;
             _animator.SetTrigger(Idle);
+            _agent.enabled = false;
         }
     }
     
