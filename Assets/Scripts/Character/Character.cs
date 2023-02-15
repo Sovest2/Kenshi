@@ -1,5 +1,4 @@
 using System;
-using Kenshi.Character.States;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -11,15 +10,9 @@ namespace Kenshi.Character
     {
         public static event Action<Character> OnSelect;
         
-        [Header("States")]
-        public Idle IdleState;
-        public Move MoveState;
-        
-        
         private FocusTarget _focusTarget;
         public Animator Animator { get; private set; }
         public NavMeshAgent Agent { get; private set; }
-        public State CurrentState { get; private set; }
 
         private void Awake()
         {
@@ -28,30 +21,11 @@ namespace Kenshi.Character
             _focusTarget = GetComponent<FocusTarget>();
 
             FocusTarget.OnSelect += HandleFocus;
-            ChangeState(IdleState);
         }
 
         private void OnDestroy()
         {
             FocusTarget.OnSelect -= HandleFocus;
-        }
-
-        private void Update()
-        {
-            CurrentState.Update();
-        }
-
-        private void FixedUpdate()
-        {
-            CurrentState.FixedUpdate();
-        }
-        
-        public void ChangeState(State newState)
-        {
-            CurrentState?.Exit();
-            
-            CurrentState = newState;
-            CurrentState.Enter(this);
         }
 
         private void HandleFocus(FocusTarget focusTarget)
