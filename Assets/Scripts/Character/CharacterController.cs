@@ -1,5 +1,3 @@
-using System;
-using Kenshi.Character.States;
 using UnityEngine;
 
 namespace Kenshi.Character
@@ -34,13 +32,10 @@ namespace Kenshi.Character
                 return;
             
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            
-            if (!Physics.Raycast(ray, out hit)) 
+            if (!Physics.Raycast(ray, out RaycastHit hit)) 
                 return;
             
-            _character.Animator.SetTrigger("Move");
-            _character.Animator.GetBehaviour<MoveBehaviour>().SetDestination(hit.point);
+            _character.MoveTo(hit.point);
         }
     }
 }

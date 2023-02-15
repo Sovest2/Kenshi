@@ -11,9 +11,9 @@ namespace Kenshi.Character.States
         private Animator _animator;
         private NavMeshAgent _agent;
 
-        public void SetDestination(Vector3 destionation)
+        public void SetDestination(Vector3 destination)
         {
-            _destination = destionation;
+            _destination = destination;
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

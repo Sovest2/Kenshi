@@ -1,4 +1,5 @@
 using System;
+using Kenshi.Character.States;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -8,14 +9,17 @@ namespace Kenshi.Character
     [RequireComponent(typeof(NavMeshAgent), typeof(Animator), typeof(FocusTarget))]
     public class Character : MonoBehaviour, IPointerClickHandler
     {
+        private static readonly int Move = Animator.StringToHash("Move");
         public static event Action<Character> OnSelect;
         
         private FocusTarget _focusTarget;
-        public Animator Animator { get; private set; }
+        private Animator _animator;
+        private MoveBehaviour _moveBehaviour;
 
         private void Awake()
         {
-            Animator = GetComponent<Animator>();
+            _animator = GetComponent<Animator>();
+            _moveBehaviour = _animator.GetBehaviour<MoveBehaviour>();
             _focusTarget = GetComponent<FocusTarget>();
 
             FocusTarget.OnSelect += HandleFocus;
@@ -40,6 +44,12 @@ namespace Kenshi.Character
                 return;
             
             OnSelect?.Invoke(this);
+        }
+
+        public void MoveTo(Vector3 position)
+        {
+            _animator.SetTrigger(Move);
+            _moveBehaviour.SetDestination(position);
         }
     }
 }
