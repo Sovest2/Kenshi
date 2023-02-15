@@ -1,3 +1,4 @@
+using Kenshi.Character.Commands;
 using UnityEngine;
 
 namespace Kenshi.Character
@@ -35,7 +36,7 @@ namespace Kenshi.Character
             if (!Physics.Raycast(ray, out RaycastHit hit)) 
                 return;
             
-            _character.MoveTo(hit.point);
+            _character.SetCommand(new MoveCommand(_character,hit.point));
         }
     }
 }

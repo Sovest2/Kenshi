@@ -1,5 +1,6 @@
 using System;
-using Kenshi.Character.States;
+using System.Collections.Generic;
+using Kenshi.Character.Commands;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -9,17 +10,16 @@ namespace Kenshi.Character
     [RequireComponent(typeof(NavMeshAgent), typeof(Animator), typeof(FocusTarget))]
     public class Character : MonoBehaviour, IPointerClickHandler
     {
-        private static readonly int Move = Animator.StringToHash("Move");
         public static event Action<Character> OnSelect;
+
+        public Queue<ICommand> Commands { get; } = new();
         
         private FocusTarget _focusTarget;
-        private Animator _animator;
-        private MoveBehaviour _moveBehaviour;
+        public Animator Animator { get; private set; }
 
         private void Awake()
         {
-            _animator = GetComponent<Animator>();
-            _moveBehaviour = _animator.GetBehaviour<MoveBehaviour>();
+            Animator = GetComponent<Animator>();
             _focusTarget = GetComponent<FocusTarget>();
 
             FocusTarget.OnSelect += HandleFocus;
@@ -46,10 +46,24 @@ namespace Kenshi.Character
             OnSelect?.Invoke(this);
         }
 
-        public void MoveTo(Vector3 position)
+        public void SetCommand(ICommand command)
         {
-            _animator.SetTrigger(Move);
-            _moveBehaviour.SetDestination(position);
+            Commands.Clear();
+            AddCommand(command);
+            ExecuteCommand();
+        }
+
+        public void AddCommand(ICommand command)
+        {
+            Commands.Enqueue(command);
+        }
+
+        public void ExecuteCommand()
+        {
+            if(Commands.Count <= 0) 
+                return;
+            
+            Commands.Dequeue().Execute();
         }
     }
 }
