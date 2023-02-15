@@ -6,6 +6,7 @@ namespace Kenshi.Character.States
     public class MoveBehaviour : StateMachineBehaviour
     {
         private static readonly int Idle = Animator.StringToHash("Idle");
+        private static readonly int Property = Animator.StringToHash("Movement Speed");
 
         private Vector3 _destination;
         private Animator _animator;
@@ -25,6 +26,8 @@ namespace Kenshi.Character.States
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            animator.SetFloat(Property, _agent.velocity.magnitude / _agent.speed);
+            
             if (_agent.remainingDistance <= _agent.stoppingDistance)
                 Stop();
             
