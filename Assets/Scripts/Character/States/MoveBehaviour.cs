@@ -1,13 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Kenshi.Character.States
 {
     public class MoveBehaviour : StateMachineBehaviour
     {
+        private static readonly int Idle = Animator.StringToHash("Idle");
+
         private Vector3 _destination;
-        private Character _character;
+        private Animator _animator;
+        private NavMeshAgent _agent;
+
         public void SetDestination(Vector3 destionation)
         {
             _destination = destionation;
@@ -15,21 +18,24 @@ namespace Kenshi.Character.States
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            _character = animator.GetComponent<Character>();
-            _character.Agent.SetDestination(_destination);
+            _animator = animator;
+            _agent = animator.GetComponent<NavMeshAgent>();
+            _agent.SetDestination(_destination);
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (_character.Agent.remainingDistance <= _character.Agent.stoppingDistance)
-            {
-                animator.SetTrigger("Idle");
-            }
+            if (_agent.remainingDistance <= _agent.stoppingDistance)
+                Stop();
+            
+            if(!_agent.hasPath)
+                Stop();
         }
 
-        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        private void Stop()
         {
-            _character.Agent.SetDestination(_character.transform.position);
+            _agent.SetDestination(_agent.transform.position);
+            _animator.SetTrigger(Idle);
         }
     }
     

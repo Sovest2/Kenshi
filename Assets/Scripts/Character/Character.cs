@@ -12,11 +12,9 @@ namespace Kenshi.Character
         
         private FocusTarget _focusTarget;
         public Animator Animator { get; private set; }
-        public NavMeshAgent Agent { get; private set; }
 
         private void Awake()
         {
-            Agent = GetComponent<NavMeshAgent>();
             Animator = GetComponent<Animator>();
             _focusTarget = GetComponent<FocusTarget>();
 
