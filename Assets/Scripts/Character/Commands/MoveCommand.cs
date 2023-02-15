@@ -16,10 +16,11 @@ namespace Kenshi.Character.Commands
             _destination = destination;
         }
 
-        public void Execute()
+        public bool Execute()
         {
             _character.Animator.SetTrigger(Move);
             _character.Animator.GetBehaviour<MoveBehaviour>().SetDestination(_destination);
+            return true;
         }
     }
 }

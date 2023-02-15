@@ -12,6 +12,7 @@ namespace Kenshi.Character
     {
         public static event Action<Character> OnSelect;
 
+        public event Action<ICommand> OnCommandExecuted;
         public Queue<ICommand> Commands { get; } = new();
         
         private FocusTarget _focusTarget;
@@ -62,8 +63,9 @@ namespace Kenshi.Character
         {
             if(Commands.Count <= 0) 
                 return;
-            
-            Commands.Dequeue().Execute();
+
+            ICommand command = Commands.Dequeue();
+            if (command.Execute()) OnCommandExecuted?.Invoke(command);
         }
     }
 }

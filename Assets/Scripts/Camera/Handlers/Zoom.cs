@@ -19,7 +19,6 @@ namespace Kenshi.Camera
         {
             _transposer = controller.Camera.GetCinemachineComponent<CinemachineTransposer>();
             _currentOffset = -(_transposer.m_FollowOffset.z + _minimalZoom) / _maximumZoom;
-            Debug.Log(_currentOffset);
         }
 
         public void Execute()
@@ -39,7 +38,5 @@ namespace Kenshi.Camera
             offset.z = Mathf.Lerp(-_minimalZoom, -_maximumZoom, _currentOffset );
             _transposer.m_FollowOffset = offset;
         }
-
-        
     }
 }
