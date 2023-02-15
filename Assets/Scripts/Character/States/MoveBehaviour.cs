@@ -21,6 +21,7 @@ namespace Kenshi.Character.States
         {
             _animator = animator;
             _agent = animator.GetComponent<NavMeshAgent>();
+            _agent.enabled = true;
             _agent.SetDestination(_destination);
         }
 
@@ -38,6 +39,7 @@ namespace Kenshi.Character.States
         private void Stop()
         {
             _agent.SetDestination(_agent.transform.position);
+            _agent.enabled = false;
             _animator.SetTrigger(Idle);
         }
     }

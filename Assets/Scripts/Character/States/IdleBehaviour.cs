@@ -9,11 +9,13 @@ namespace Kenshi.Character.States
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             _character = animator.GetComponent<Character>();
+            _character.ExecuteCommand();
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            _character.ExecuteCommand();
+            // if(animator.)
+            // _character.ExecuteCommand();
         }
     }
     

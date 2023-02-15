@@ -1,4 +1,5 @@
 using Kenshi.Character.Commands;
+using Kenshi.Environment.Interactable;
 using UnityEngine;
 
 namespace Kenshi.Character
@@ -35,8 +36,13 @@ namespace Kenshi.Character
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
             if (!Physics.Raycast(ray, out RaycastHit hit)) 
                 return;
-            
+
             _character.SetCommand(new MoveCommand(_character,hit.point));
+            
+            if (hit.collider.TryGetComponent(out IInteractable interactableObject))
+            {
+                _character.AddCommand(interactableObject.Interact(_character));
+            }
         }
     }
 }
