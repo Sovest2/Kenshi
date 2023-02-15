@@ -23,10 +23,7 @@ namespace Kenshi.Character.Commands
             _character.Animator.SetTrigger(SitTrigger);
 
             
-            _character.transform.position = point.transform.position;
-            _character.transform.forward = point.transform.forward;
-
-            point.IsOccupied = true;
+            point.Occupy(_character);
             _character.OnCommandExecuted += HandleCommandExecuted;
             return true;
         }
@@ -36,7 +33,7 @@ namespace Kenshi.Character.Commands
             if(command == this)
                 return;
 
-            point.IsOccupied = false;
+            point.Occupy(null);
             _character.OnCommandExecuted -= HandleCommandExecuted;
         }
     }
