@@ -7,7 +7,7 @@ namespace Kenshi.Character.Commands
         private static readonly int SitTrigger = Animator.StringToHash("Sit");
         private Character _character;
         private Seat _seat;
-        private SeatPoint point;
+        private SeatPoint _point;
 
         public SitCommand(Character character, Seat seat)
         {
@@ -17,13 +17,12 @@ namespace Kenshi.Character.Commands
     
         public bool Execute()
         {
-            if (!_seat.TryGetFreeSeatPoint(out point))
+            if (!_seat.TryGetFreeSeatPoint(out _point))
                 return false;
                
             _character.Animator.SetTrigger(SitTrigger);
-
             
-            point.Occupy(_character);
+            _point.Occupy(_character);
             _character.OnCommandExecuted += HandleCommandExecuted;
             return true;
         }
@@ -33,7 +32,7 @@ namespace Kenshi.Character.Commands
             if(command == this)
                 return;
 
-            point.Occupy(null);
+            _point.Occupy(null);
             _character.OnCommandExecuted -= HandleCommandExecuted;
         }
     }

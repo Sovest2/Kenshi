@@ -1,5 +1,3 @@
-
-
 using Kenshi.Character.Commands;
 
 namespace Kenshi.Environment.Interactable
@@ -8,5 +6,4 @@ namespace Kenshi.Environment.Interactable
     {
         public ICommand Interact(Character.Character character);
     }
-    
 }
