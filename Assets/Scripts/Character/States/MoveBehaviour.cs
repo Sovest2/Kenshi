@@ -30,7 +30,7 @@ namespace Kenshi.Character.States
         {
             if(!_agent.enabled)
                 return;
-
+            
             animator.SetFloat(Property, _agent.velocity.magnitude / _agent.speed);
 
             if (!_agent.hasPath)
